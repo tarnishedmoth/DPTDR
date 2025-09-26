@@ -1,12 +1,134 @@
-[gd_scene load_steps=2 format=3 uid="uid://lw3n7aiihq5f"]
+[gd_scene load_steps=17 format=3 uid="uid://lw3n7aiihq5f"]
 
 [ext_resource type="Script" uid="uid://dee8msc5ofj2t" path="res://play/hud.gd" id="1_mgvus"]
+[ext_resource type="CompressedTexture3D" uid="uid://qblrkigbmt7b" path="res://fx/LUTs/filmictest1.png" id="1_urhmn"]
+[ext_resource type="PackedScene" uid="uid://dv5x6rnw8phx8" path="res://cars/argenti.blend" id="1_xnf22"]
+[ext_resource type="Script" uid="uid://d0bgsam1lgkq6" path="res://play/player.gd" id="2_upqfr"]
+[ext_resource type="Script" uid="uid://clymh7381fjow" path="res://play/camera.gd" id="2_urhmn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_upqfr"]
+sky_top_color = Color(0.329983, 0.44964105, 0.6528873, 1)
+sky_horizon_color = Color(0.64233434, 0.6644988, 0.7063104, 1)
+ground_horizon_color = Color(0.64233434, 0.6644988, 0.7063104, 1)
+energy_multiplier = 2.0
+
+[sub_resource type="Sky" id="Sky_7rana"]
+sky_material = SubResource("ProceduralSkyMaterial_upqfr")
+
+[sub_resource type="Environment" id="Environment_g1tyd"]
+background_mode = 2
+sky = SubResource("Sky_7rana")
+tonemap_mode = 4
+glow_enabled = true
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.8239239, 0.82392395, 0.8239239, 1)
+fog_density = 0.2
+fog_depth_curve = 2.0000005
+fog_depth_begin = 60.0
+fog_depth_end = 120.0
+adjustment_color_correction = ExtResource("1_urhmn")
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_mmi52"]
+
+[sub_resource type="Gradient" id="Gradient_xnf22"]
+offsets = PackedFloat32Array(0.03183024, 0.16180371, 0.2387268, 0.45358092, 0.5198939, 0.69496024, 1)
+colors = PackedColorArray(0.12079976, 0.1499427, 0.09548008, 1, 0.3652935, 0.28151414, 0.16732234, 1, 0.11493177, 0.0994178, 0.010084168, 1, 0.23687059, 0.2159901, 0.1689812, 1, 0.2702397, 0.22405207, 0.09066158, 1, 0.1981166, 0.23134956, 0.09535926, 1, 0.58822095, 0.78796196, 0.36594847, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xnf22"]
+noise_type = 5
+seed = -30510
+frequency = 0.0633
+offset = Vector3(-43.17, 0, 0)
+fractal_octaves = 4
+fractal_lacunarity = 1.52
+fractal_gain = 0.685
+fractal_weighted_strength = 0.35
+domain_warp_enabled = true
+domain_warp_amplitude = 47.64
+domain_warp_frequency = 0.03
+domain_warp_fractal_octaves = 6
+domain_warp_fractal_lacunarity = 3.29
+domain_warp_fractal_gain = 0.7
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xnf22"]
+noise = SubResource("FastNoiseLite_xnf22")
+color_ramp = SubResource("Gradient_xnf22")
+seamless = true
+seamless_blend_skirt = 0.106
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_urhmn"]
+noise = SubResource("FastNoiseLite_xnf22")
+color_ramp = SubResource("Gradient_xnf22")
+seamless = true
+as_normal_map = true
+seamless_blend_skirt = 0.106
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_upqfr"]
+albedo_texture = SubResource("NoiseTexture2D_xnf22")
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_urhmn")
+uv1_scale = Vector3(256, 256, 256)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_upqfr"]
+material = SubResource("StandardMaterial3D_upqfr")
+size = Vector2(1024, 1024)
+subdivide_width = 64
+subdivide_depth = 64
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_urhmn"]
+height = 3.0
+radial_segments = 8
+rings = 0
 
 [node name="Rally" type="Node3D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_g1tyd")
+camera_attributes = SubResource("CameraAttributesPhysical_mmi52")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-1, -4.8886196e-08, 7.2476766e-08, 0, 0.8290376, 0.5591929, -8.742278e-08, 0.5591929, -0.8290376, 0, 0, 0)
+light_color = Color(0.8603248, 0.8833268, 0.7591778, 1)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_max_distance = 300.0
+
 [node name="Map" type="Node3D" parent="."]
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map"]
+mesh = SubResource("PlaneMesh_upqfr")
+
+[node name="Cylinder" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.87, 1.5, 0)
+mesh = SubResource("CylinderMesh_urhmn")
+
+[node name="Cylinder2" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.595, 1.5, -7.21)
+mesh = SubResource("CylinderMesh_urhmn")
+
 [node name="Player" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_upqfr")
+
+[node name="argenti" parent="Player" instance=ExtResource("1_xnf22")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.99965733, 0.02617695, 0, -0.02617695, 0.99965733, 0, 0.394, -0.75)
+light_size = 2.0
+spot_range = 40.0
+spot_attenuation = -0.4
+spot_angle = 16.0
+spot_angle_attenuation = 0.13869654
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(-4.371139e-08, -0.57357645, 0.81915206, 0, 0.81915206, 0.57357645, -1, 2.5071824e-08, -3.5806274e-08, 70, 50, 0)
+projection = 1
+size = 25.0
+far = 2000.0
+script = ExtResource("2_urhmn")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3

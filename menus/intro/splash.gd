@@ -9,7 +9,7 @@ signal finished
 
 
 func _ready() -> void:
-	version.text = Main.VERSION
+	version.text = "v" + Main.get_project_version()
 	await animate()
 	finished.emit()
 
