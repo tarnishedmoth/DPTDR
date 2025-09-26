@@ -5,7 +5,7 @@ class_name Player extends Node3D
 
 #const DEADZONE:float = TAU * 0.15
 
-var heading:float = 0.0 # radians
+var heading:float = 0.0
 var current_speed:float = 0.0
 
 func _process(delta: float) -> void:
@@ -24,7 +24,8 @@ func _process(delta: float) -> void:
 	var angle: float
 	var input_direction: Vector2 = Input.get_vector(&"Left", &"Right", &"Down", &"Up")
 	if input_direction.length() != 0:
-		rotation.y = input_direction.angle()
+		heading = input_direction.angle()
+		rotation.y = heading
 		#angle = input_direction.angle() / (PI/4)
 		#angle = wrapi(int(angle), 0, 8)
 		#print(angle)
@@ -32,4 +33,5 @@ func _process(delta: float) -> void:
 	position += -basis.z * current_speed
 
 func delta_lerp(a: float, b: float, factor: float, deltaTime: float):
+	## FIXME THIS IS WRONGGGGG should not be using delta time in lerp
 	return lerp(a, b, 1 - (factor ** deltaTime))

@@ -1,6 +1,6 @@
 extends Camera3D
 
-@export var lerp_weight:float = 0.9
+@export var lerp_weight:float = 0.18
 
 @onready var player: Node3D = %Player
 @onready var camera_offset_from_player:Vector3 = player.global_position - global_position
