@@ -55,6 +55,12 @@ Down={
 ]
 }
 
+[layer_names]
+
+3d_render/layer_1="World"
+3d_render/layer_2="Player"
+3d_render/layer_3="Layer 3"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

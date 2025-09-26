@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://lw3n7aiihq5f"]
+[gd_scene load_steps=19 format=3 uid="uid://lw3n7aiihq5f"]
 
 [ext_resource type="Script" uid="uid://dee8msc5ofj2t" path="res://play/hud.gd" id="1_mgvus"]
 [ext_resource type="CompressedTexture3D" uid="uid://qblrkigbmt7b" path="res://fx/LUTs/filmictest1.png" id="1_urhmn"]
@@ -58,6 +58,8 @@ seamless = true
 seamless_blend_skirt = 0.106
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_urhmn"]
+width = 128
+height = 128
 noise = SubResource("FastNoiseLite_xnf22")
 color_ramp = SubResource("Gradient_xnf22")
 seamless = true
@@ -76,6 +78,17 @@ size = Vector2(1024, 1024)
 subdivide_width = 64
 subdivide_depth = 64
 
+[sub_resource type="Curve3D" id="Curve3D_upqfr"]
+bake_interval = 21.81
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.67696524, 0, -12.23427, 0, 0, 0, 0, 0, 0, 2.1355166, 0, -20.91325, 0, 0, 0, 0, 0, 0, 8.866683, -1.9073486e-06, -26.92947, 0, 0, 0, 0, 0, 0, 21.804783, -1.2218952e-06, -28.057627, 0, 0, 0, 0, 0, 0, 29.56512, 0, -20.652456, 0, 0, 0, 0, 0, 0, 33.5289, 0, -10.6930485, 0, 0, 0, 0, 0, 0, 31.20189, 0, 1.1867142, 0, 0, 0, 0, 0, 0, 23.473698, 0, 6.543066, 0, 0, 0, 0, 0, 0, 10.4832325, 0, 5.8424897, 0, 0, 0, 0, 0, 0, -6.8027596, 0, -6.450699, 0, 0, 0, 0, 0, 0, -19.665422, 0, -7.9819674, 0, 0, 0, 0, 0, 0, -29.057207, 0, -2.0610602, 0, 0, 0, 0, 0, 0, -29.363459, 0, 7.6369796, 0, 0, 0, 0, 0, 0, -12.2132435, 0, 17.232935, 0, 0, 0, 0, 0, 0, 0.85358953, 0, 15.803751, 0, 0, 0, 0, 0, 0, 3.7119575, 0, 9.066165),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7rana"]
+albedo_color = Color(0.30331242, 0.23531637, 0.10674132, 1)
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_urhmn"]
 height = 3.0
 radial_segments = 8
@@ -88,10 +101,11 @@ environment = SubResource("Environment_g1tyd")
 camera_attributes = SubResource("CameraAttributesPhysical_mmi52")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-1, -4.8886196e-08, 7.2476766e-08, 0, 0.8290376, 0.5591929, -8.742278e-08, 0.5591929, -0.8290376, 0, 0, 0)
+transform = Transform3D(-0.48175386, 0.7589038, -0.43815327, 0, 0.49999997, 0.86602545, 0.8763066, 0.4172111, -0.24087691, 0, 0, 0)
 light_color = Color(0.8603248, 0.8833268, 0.7591778, 1)
 light_energy = 1.2
 shadow_enabled = true
+shadow_caster_mask = 4294967291
 directional_shadow_mode = 1
 directional_shadow_max_distance = 300.0
 
@@ -99,6 +113,26 @@ directional_shadow_max_distance = 300.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map"]
 mesh = SubResource("PlaneMesh_upqfr")
+
+[node name="Path3D" type="Path3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12464142, 0)
+curve = SubResource("Curve3D_upqfr")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map/Path3D"]
+cast_shadow = 0
+polygon = PackedVector2Array(0, 0, 0, 0.25, 4, 0.25, 4, 0.25)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 2.0
+path_simplify_angle = 0.0
+path_rotation = 1
+path_rotation_accurate = false
+path_local = false
+path_continuous_u = false
+path_u_distance = 1.0
+path_joined = false
+material = SubResource("StandardMaterial3D_7rana")
 
 [node name="Cylinder" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.87, 1.5, 0)
@@ -108,16 +142,49 @@ mesh = SubResource("CylinderMesh_urhmn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.595, 1.5, -7.21)
 mesh = SubResource("CylinderMesh_urhmn")
 
+[node name="Cylinder3" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.705388, 1.5, 12.494323)
+mesh = SubResource("CylinderMesh_urhmn")
+
+[node name="Cylinder4" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.13461, 1.5000019, -15.311582)
+mesh = SubResource("CylinderMesh_urhmn")
+
+[node name="Cylinder5" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.664593, 1.5000038, 7.1846457)
+mesh = SubResource("CylinderMesh_urhmn")
+
 [node name="Player" type="Node3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_upqfr")
+top_speed = 3.3
+unresponsiveness = 0.5
 
 [node name="argenti" parent="Player" instance=ExtResource("1_xnf22")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 
+[node name="Car_007" parent="Player/argenti" index="0"]
+layers = 2
+
+[node name="Door" parent="Player/argenti" index="1"]
+layers = 2
+
+[node name="DoorGlass" parent="Player/argenti" index="2"]
+layers = 2
+
+[node name="SideMirror" parent="Player/argenti" index="3"]
+layers = 2
+
+[node name="DoorCard" parent="Player/argenti" index="4"]
+layers = 2
+
 [node name="SpotLight3D" type="SpotLight3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 0.99965733, 0.02617695, 0, -0.02617695, 0.99965733, 0, 0.394, -0.75)
 light_size = 2.0
+light_cull_mask = 4294967293
+shadow_enabled = true
+shadow_reverse_cull_face = true
+shadow_caster_mask = 4294967289
 spot_range = 40.0
 spot_attenuation = -0.4
 spot_angle = 16.0
@@ -224,3 +291,5 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
+
+[editable path="Player/argenti"]

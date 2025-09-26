@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 	## Accel / Decel
 	if not Input.is_action_pressed(&"Brake"):
 		if Input.is_action_pressed(&"Accelerate"):
-			current_speed = delta_lerp(current_speed, top_speed / 10.0, unresponsiveness * 0.5, delta)
+			current_speed = delta_lerp(current_speed, top_speed / 10.0, unresponsiveness * 0.6, delta)
 		else:
 			current_speed = delta_lerp(current_speed, 0.0, unresponsiveness, delta)
 	
