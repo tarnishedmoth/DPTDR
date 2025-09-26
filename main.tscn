@@ -1,9 +1,57 @@
-[gd_scene load_steps=3 format=3 uid="uid://c525u8d0166x4"]
+[gd_scene load_steps=5 format=3 uid="uid://c525u8d0166x4"]
 
 [ext_resource type="Script" uid="uid://b6rscnyubc6tg" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://ksdjo8qa17pc" path="res://menus/developer/dev_menu.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dgjwny10ywnvr" path="res://menus/intro/splash.tscn" id="2_h2yge"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_h2yge"]
+font_size = 9
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ig7tw")
-main_menu_scene = null
+splash_scene = ExtResource("2_h2yge")
+main_menu_scene = ExtResource("2_0xm2m")
 dev_main_menu_scene = ExtResource("2_0xm2m")
+load_to_developer_menu = false
+
+[node name="Debug" type="VBoxContainer" parent="."]
+modulate = Color(1, 1, 1, 0.627451)
+z_index = 300
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 125.0
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ProjectVersionLabel" type="Label" parent="Debug"]
+unique_name_in_owner = true
+z_index = 300
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Version"
+label_settings = SubResource("LabelSettings_h2yge")
+
+[node name="Divider" type="Control" parent="Debug"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DebugSceneLabel" type="RichTextLabel" parent="Debug"]
+unique_name_in_owner = true
+z_index = 100
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/normal_font_size = 8
+theme_override_font_sizes/bold_font_size = 9
+theme_override_font_sizes/bold_italics_font_size = 9
+theme_override_font_sizes/italics_font_size = 8
+theme_override_font_sizes/mono_font_size = 8
+bbcode_enabled = true
+text = "Instanced Scene Filename"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false

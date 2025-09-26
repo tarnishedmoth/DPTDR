@@ -1,5 +1,5 @@
 class_name Juice
-## Created by Michael Avrie initially for Artillery Rampage.
+## This code originally from
 ## https://github.com/tryfinsigabrt/Artillery-Rampage
 
 ## Contains floats to be used as durations for various effects, and helper methods

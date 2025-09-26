@@ -3,10 +3,11 @@ class_name DeveloperMainMenu extends Control
 @export var selectable_levels: Array[PackedScene]
 
 @onready var select_dropdown: OptionButton = %SelectDropdown
-@onready var main: MainRoot = get_parent()
+@onready var main: Main = get_parent()
 
 @onready var bg: ColorRect = %BG
 @onready var launch_guy: Sprite2D = %LaunchGuy
+@onready var contents: VBoxContainer = %Contents
 
 func _ready() -> void:
 	var id:int = 1 # 0 is reserved for divider.
@@ -16,6 +17,8 @@ func _ready() -> void:
 			select_dropdown.add_item(level.resource_path.trim_prefix("res://"), id) # Display text
 			select_dropdown.set_item_metadata(id, level.resource_path) # Filepath
 			id += 1
+			
+	Juice.fade_in(contents, Juice.PATIENT, Color.TRANSPARENT)
 
 
 func _on_launch_button_pressed() -> void:

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ksdjo8qa17pc"]
+[gd_scene load_steps=6 format=3 uid="uid://ksdjo8qa17pc"]
 
 [ext_resource type="Script" uid="uid://cn5t7ncgbkn2q" path="res://menus/developer/dev_menu.gd" id="1_12ima"]
 [ext_resource type="PackedScene" uid="uid://lw3n7aiihq5f" path="res://play/rally.tscn" id="2_01oe4"]
+[ext_resource type="PackedScene" uid="uid://3gbltwsnvvfb" path="res://utils/vignette.tscn" id="3_4m0ib"]
 [ext_resource type="Texture2D" uid="uid://bdgij0xt058yh" path="res://menus/developer/launch.png" id="3_aqm70"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kvqlu"]
@@ -33,6 +34,9 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.827451, 0.12941177, 0, 1)
 
+[node name="Vignette" parent="." instance=ExtResource("3_4m0ib")]
+layout_mode = 1
+
 [node name="LaunchGuy" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
@@ -41,7 +45,8 @@ position = Vector2(577.09094, 314.5)
 scale = Vector2(0.83333343, 0.83333343)
 texture = ExtResource("3_aqm70")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Contents" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
@@ -54,16 +59,16 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="Contents"]
 layout_mode = 2
 text = "WELCOME, DEVELOPER"
 label_settings = SubResource("LabelSettings_kvqlu")
 
-[node name="Spacer" type="Control" parent="VBoxContainer"]
+[node name="Spacer" type="Control" parent="Contents"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="SelectDropdown" type="OptionButton" parent="VBoxContainer"]
+[node name="SelectDropdown" type="OptionButton" parent="Contents"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
@@ -75,9 +80,9 @@ popup/item_0/text = "Select a scene..."
 popup/item_0/id = 0
 popup/item_0/separator = true
 
-[node name="LaunchButton" type="Button" parent="VBoxContainer"]
+[node name="LaunchButton" type="Button" parent="Contents"]
 layout_mode = 2
 text = "LAUNCH"
 flat = true
 
-[connection signal="pressed" from="VBoxContainer/LaunchButton" to="." method="_on_launch_button_pressed"]
+[connection signal="pressed" from="Contents/LaunchButton" to="." method="_on_launch_button_pressed"]

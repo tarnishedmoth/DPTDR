@@ -1,5 +1,5 @@
 class_name MathUtils
-## Created by Justin Montgomery for Artillery Rampage.
+## This code originally from Artillery Rampage.
 ## https://github.com/tryfinsigabrt/Artillery-Rampage
 
 ## Returns a random sign (-1.0 or 1.0)
