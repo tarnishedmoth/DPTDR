@@ -3,6 +3,7 @@ class_name ProceduralRoad extends Node3D
 @export var length: float = 500.0
 @export var width: float = 8.0
 @export var max_angle_deviation: float = 45.0
+@export var fix_angles_to_eight_way: bool = true
 @export var segment_range: Vector2 = Vector2(10.0, 40.0)
 
 var generated_path: Path3D
@@ -29,7 +30,18 @@ func generate() -> void:
 		# Pick a direction
 		var angle: float = 0.0 ## Degrees
 		if index > 0:
-			angle = MathUtils.randf_range_signed(0.0, max_angle_deviation)
+			if not fix_angles_to_eight_way:
+				# Free angle
+				angle = MathUtils.randf_range_signed(0.0, max_angle_deviation)
+			else:
+				# Locked 8-way directions
+				var turn_type:int = randi_range(-2,2)
+				match turn_type:
+					-2: angle = -90.0
+					-1: angle = -45.0
+					0: angle = 0.0
+					1: angle = 45.0
+					2: angle = 90.0
 		direction = direction.rotated(deg_to_rad(angle))
 		
 		var point: Vector3 = Vector3(
@@ -55,7 +67,6 @@ func generate() -> void:
 	shape.path_node = shape.get_path_to(generated_path)
 		
 	print("Successful regeneration.")
-
 
 func generate_road_polygon(road_width: float) -> PackedVector2Array:
 	var array: PackedVector2Array = [
