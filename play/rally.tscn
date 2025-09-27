@@ -1,10 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://lw3n7aiihq5f"]
+[gd_scene load_steps=21 format=3 uid="uid://lw3n7aiihq5f"]
 
 [ext_resource type="Script" uid="uid://dee8msc5ofj2t" path="res://play/hud.gd" id="1_mgvus"]
 [ext_resource type="CompressedTexture3D" uid="uid://qblrkigbmt7b" path="res://fx/LUTs/filmictest1.png" id="1_urhmn"]
 [ext_resource type="PackedScene" uid="uid://dv5x6rnw8phx8" path="res://cars/argenti.blend" id="1_xnf22"]
+[ext_resource type="PackedScene" uid="uid://ckydw2dt777yv" path="res://procgen/proc_road_path.tscn" id="2_7rana"]
 [ext_resource type="Script" uid="uid://d0bgsam1lgkq6" path="res://play/player.gd" id="2_upqfr"]
 [ext_resource type="Script" uid="uid://clymh7381fjow" path="res://play/camera.gd" id="2_urhmn"]
+[ext_resource type="Script" uid="uid://cqia2f5fy00p8" path="res://procgen/debug_generate.gd" id="7_g1tyd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_upqfr"]
 sky_top_color = Color(0.329983, 0.44964105, 0.6528873, 1)
@@ -154,11 +156,12 @@ mesh = SubResource("CylinderMesh_urhmn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.664593, 1.5000038, 7.1846457)
 mesh = SubResource("CylinderMesh_urhmn")
 
+[node name="ProceduralRoad" parent="Map" instance=ExtResource("2_7rana")]
+
 [node name="Player" type="Node3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_upqfr")
 top_speed = 3.3
-unresponsiveness = 0.5
 
 [node name="argenti" parent="Player" instance=ExtResource("1_xnf22")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
@@ -220,6 +223,12 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 40.0
 grow_horizontal = 2
+
+[node name="Label" type="Label" parent="HUD/TOP_CENTER" node_paths=PackedStringArray("proc_gen_node")]
+layout_mode = 2
+text = "Press G to Regenerate Road"
+script = ExtResource("7_g1tyd")
+proc_gen_node = NodePath("../../../Map/ProceduralRoad")
 
 [node name="TOP_RIGHT" type="HBoxContainer" parent="HUD"]
 layout_mode = 1

@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckydw2dt777yv"]
+
+[ext_resource type="Script" uid="uid://bbn66fqslipb7" path="res://procgen/proc_road.gd" id="1_nqkej"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nqkej"]
+albedo_color = Color(0.30331242, 0.23531637, 0.10674132, 1)
+
+[node name="ProceduralRoad" type="Node3D"]
+script = ExtResource("1_nqkej")
+length = 3000.0
+width = 6.0
+max_angle_deviation = 60.0
+segment_range = Vector2(8, 36)
+metadata/_custom_type_script = "uid://bbn66fqslipb7"
+
+[node name="Shape" type="CSGPolygon3D" parent="."]
+unique_name_in_owner = true
+cast_shadow = 0
+polygon = PackedVector2Array(-1, 0, -0.6, 0.1, 0.6, 0.1, 1, 0)
+mode = 2
+path_node = NodePath("")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 1
+path_rotation_accurate = false
+path_local = false
+path_continuous_u = false
+path_u_distance = 1.0
+path_joined = false
+material = SubResource("StandardMaterial3D_nqkej")

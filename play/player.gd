@@ -1,7 +1,7 @@
 class_name Player extends Node3D
 
 @export var top_speed: float = 5.0
-@export var unresponsiveness:float = 0.6
+@export var responsiveness:float = 0.8
 
 #const DEADZONE:float = TAU * 0.15
 
@@ -12,13 +12,13 @@ func _process(delta: float) -> void:
 	## Accel / Decel
 	if not Input.is_action_pressed(&"Brake"):
 		if Input.is_action_pressed(&"Accelerate"):
-			current_speed = delta_lerp(current_speed, top_speed / 10.0, unresponsiveness * 0.6, delta)
+			current_speed = dlerp(current_speed, top_speed / 10.0, responsiveness , delta)
 		else:
-			current_speed = delta_lerp(current_speed, 0.0, unresponsiveness, delta)
+			current_speed = dlerp(current_speed, 0.0, responsiveness * 0.6, delta)
 	
 	else:
 		# Brake overrides acceleration
-		current_speed = delta_lerp(current_speed, 0.0, unresponsiveness * 0.15, delta)
+		current_speed = dlerp(current_speed, 0.0, responsiveness, delta)
 		
 	## Steering
 	var angle: float
@@ -32,6 +32,5 @@ func _process(delta: float) -> void:
 	
 	position += -basis.z * current_speed
 
-func delta_lerp(a: float, b: float, factor: float, deltaTime: float):
-	## FIXME THIS IS WRONGGGGG should not be using delta time in lerp
-	return lerp(a, b, 1 - (factor ** deltaTime))
+func dlerp(a: float, b: float, factor: float, deltaTime: float):
+	return MathUtils.dlerp(a, b, factor, deltaTime)
