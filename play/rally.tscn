@@ -80,6 +80,11 @@ size = Vector2(1024, 1024)
 subdivide_width = 64
 subdivide_depth = 64
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_urhmn"]
+height = 3.0
+radial_segments = 8
+rings = 0
+
 [sub_resource type="Curve3D" id="Curve3D_upqfr"]
 bake_interval = 21.81
 _data = {
@@ -90,11 +95,6 @@ point_count = 16
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7rana"]
 albedo_color = Color(0.30331242, 0.23531637, 0.10674132, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_urhmn"]
-height = 3.0
-radial_segments = 8
-rings = 0
 
 [node name="Rally" type="Node3D"]
 
@@ -116,26 +116,6 @@ directional_shadow_max_distance = 300.0
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map"]
 mesh = SubResource("PlaneMesh_upqfr")
 
-[node name="Path3D" type="Path3D" parent="Map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12464142, 0)
-curve = SubResource("Curve3D_upqfr")
-
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map/Path3D"]
-cast_shadow = 0
-polygon = PackedVector2Array(0, 0, 0, 0.25, 4, 0.25, 4, 0.25)
-mode = 2
-path_node = NodePath("..")
-path_interval_type = 0
-path_interval = 2.0
-path_simplify_angle = 0.0
-path_rotation = 1
-path_rotation_accurate = false
-path_local = false
-path_continuous_u = false
-path_u_distance = 1.0
-path_joined = false
-material = SubResource("StandardMaterial3D_7rana")
-
 [node name="Cylinder" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.87, 1.5, 0)
 mesh = SubResource("CylinderMesh_urhmn")
@@ -155,6 +135,27 @@ mesh = SubResource("CylinderMesh_urhmn")
 [node name="Cylinder5" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.664593, 1.5000038, 7.1846457)
 mesh = SubResource("CylinderMesh_urhmn")
+
+[node name="SimpleRoad" type="Path3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12464142, 0)
+visible = false
+curve = SubResource("Curve3D_upqfr")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map/SimpleRoad"]
+cast_shadow = 0
+polygon = PackedVector2Array(0, 0, 0, 0.25, 4, 0.25, 4, 0.25)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 2.0
+path_simplify_angle = 0.0
+path_rotation = 1
+path_rotation_accurate = false
+path_local = false
+path_continuous_u = false
+path_u_distance = 1.0
+path_joined = false
+material = SubResource("StandardMaterial3D_7rana")
 
 [node name="ProceduralRoad" parent="Map" instance=ExtResource("2_7rana")]
 
@@ -224,7 +225,7 @@ offset_right = 20.0
 offset_bottom = 40.0
 grow_horizontal = 2
 
-[node name="Label" type="Label" parent="HUD/TOP_CENTER" node_paths=PackedStringArray("proc_gen_node")]
+[node name="RegenerateRoad" type="Label" parent="HUD/TOP_CENTER" node_paths=PackedStringArray("proc_gen_node")]
 layout_mode = 2
 text = "Press G to Regenerate Road"
 script = ExtResource("7_g1tyd")
